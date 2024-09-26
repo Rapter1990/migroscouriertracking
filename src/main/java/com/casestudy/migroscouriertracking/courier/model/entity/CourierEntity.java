@@ -36,5 +36,14 @@ public class CourierEntity {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
+    public CourierEntity(String courierId, double lat, double lng,
+                         String storeName, LocalDateTime timestamp) {
+        this.courierId = courierId;
+        this.lat = lat;
+        this.lng = lng;
+        this.storeName = storeName;
+        this.timestamp = timestamp;
+    }
+
 }
 
