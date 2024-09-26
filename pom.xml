@@ -31,7 +31,6 @@
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<apache.common.lang3.version>3.14.0</apache.common.lang3.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-		<openapi.version>2.1.0</openapi.version>
 		<springdoc-openapi.version>2.1.0</springdoc-openapi.version>
 	</properties>
 	<dependencies>
@@ -109,14 +108,9 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>${openapi.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>${springdoc-openapi.version}</version>
 		</dependency>
+
 
 	</dependencies>
 
