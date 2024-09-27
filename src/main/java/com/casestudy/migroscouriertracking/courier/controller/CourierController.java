@@ -5,7 +5,6 @@ import com.casestudy.migroscouriertracking.courier.model.Courier;
 import com.casestudy.migroscouriertracking.courier.model.dto.request.LogCourierLocationRequest;
 import com.casestudy.migroscouriertracking.courier.model.dto.request.TravelQueryRequest;
 import com.casestudy.migroscouriertracking.courier.model.dto.response.CourierResponse;
-import com.casestudy.migroscouriertracking.courier.model.entity.CourierEntity;
 import com.casestudy.migroscouriertracking.courier.model.mapper.CourierToCourierResponseMapper;
 import com.casestudy.migroscouriertracking.courier.service.CourierService;
 import jakarta.validation.Valid;

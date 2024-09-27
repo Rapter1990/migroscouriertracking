@@ -2,11 +2,10 @@ package com.casestudy.migroscouriertracking.courier.config;
 
 import com.casestudy.migroscouriertracking.courier.model.entity.StoreEntity;
 import com.casestudy.migroscouriertracking.courier.repository.StoreRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;

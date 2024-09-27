@@ -3,7 +3,6 @@ package com.casestudy.migroscouriertracking.courier.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -45,5 +44,13 @@ public class CourierEntity {
         this.timestamp = timestamp;
     }
 
+    public CourierEntity(String id, String courierId, double lat, double lng, String name, LocalDateTime timestamp) {
+        this.id=id;
+        this.courierId = courierId;
+        this.lat = lat;
+        this.lng = lng;
+        this.storeName = name;
+        this.timestamp = timestamp;
+    }
 }
 
