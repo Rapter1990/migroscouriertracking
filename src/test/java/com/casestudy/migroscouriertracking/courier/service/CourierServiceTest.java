@@ -79,6 +79,9 @@ class CourierServiceTest extends AbstractBaseServiceTest {
         // Then
         assertThrows(TimestampBeforeStoreCreateException.class, () -> courierService.logCourierLocation(logRequest));
 
+        // Verify
+        verify(storeRepository).findAll();
+
     }
 
     @Test
@@ -93,6 +96,9 @@ class CourierServiceTest extends AbstractBaseServiceTest {
 
         // Then
         assertThrows(StoreFarAwayException.class, () -> courierService.logCourierLocation(logRequest));
+
+        // Verify
+        verify(storeRepository).findAll();
 
     }
 
@@ -112,6 +118,8 @@ class CourierServiceTest extends AbstractBaseServiceTest {
 
         assertFalse(result.isEmpty());
         assertEquals(couriers.get(0).getCourierId(), result.get(0).getCourierId());
+
+        // Verify
         verify(courierRepository).findByCourierId(courierId);
 
     }
@@ -132,6 +140,8 @@ class CourierServiceTest extends AbstractBaseServiceTest {
 
         assertFalse(result.isEmpty());
         assertEquals(couriers.get(0).getCourierId(), result.get(0).getCourierId());
+
+        // Verify
         verify(courierRepository).findByCourierIdAndStoreNameAndTimestampBetween(request.getCourierId(), request.getStoreName(), request.getStart(), request.getEnd());
 
     }
@@ -163,6 +173,8 @@ class CourierServiceTest extends AbstractBaseServiceTest {
         double totalDistance = courierService.getTotalTravelDistance(courierId);
 
         assertEquals(distanceInKilometers, totalDistance, 0.001); // Allow a small tolerance for floating point comparisons
+
+        // Verify
         verify(courierRepository).findByCourierIdOrderByTimestampAsc(courierId);
 
     }

@@ -23,6 +23,7 @@ class TravelQueryRequestTest {
 
     @Test
     void shouldThrowIllegalArgumentExceptionWhenStartTimeIsAfterEndTime() {
+
         // Given
         LocalDateTime start = LocalDateTime.now().plusDays(1); // Future date
         LocalDateTime end = LocalDateTime.now(); // Current date
@@ -41,10 +42,12 @@ class TravelQueryRequestTest {
         assertFalse(violations.isEmpty(), "Violations should be present");
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Start time must be before end time")),
                 "Violation for invalid time range should be present");
+
     }
 
     @Test
     void shouldPassWhenValidTimeRangeProvided() {
+
         // Given
         LocalDateTime start = LocalDateTime.now().minusDays(1); // Past date
         LocalDateTime end = LocalDateTime.now().plusDays(1); // Future date
@@ -61,10 +64,12 @@ class TravelQueryRequestTest {
 
         // Then
         assertTrue(violations.isEmpty(), "No violations should be present for a valid time range");
+
     }
 
     @Test
     void shouldFailOnInvalidUUIDFormat() {
+
         // Given
         LocalDateTime start = LocalDateTime.now().minusDays(1);
         LocalDateTime end = LocalDateTime.now().plusDays(1);
@@ -83,10 +88,12 @@ class TravelQueryRequestTest {
         assertFalse(violations.isEmpty(), "Violations should be present for invalid UUID format");
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Invalid UUID format")),
                 "Violation for invalid UUID should be present");
+
     }
 
     @Test
     void shouldFailWhenStoreNameIsBlank() {
+
         // Given
         LocalDateTime start = LocalDateTime.now().minusDays(1);
         LocalDateTime end = LocalDateTime.now().plusDays(1);
@@ -105,10 +112,12 @@ class TravelQueryRequestTest {
         assertFalse(violations.isEmpty(), "Violations should be present for blank store name");
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Store name cannot be blank")),
                 "Violation for blank store name should be present");
+
     }
 
     @Test
     void shouldFailWhenStartIsNull() {
+
         // Given
         LocalDateTime end = LocalDateTime.now().plusDays(1);
 
@@ -130,6 +139,7 @@ class TravelQueryRequestTest {
 
     @Test
     void shouldFailWhenEndIsNull() {
+
         // Given
         LocalDateTime start = LocalDateTime.now().minusDays(1);
 
@@ -147,6 +157,7 @@ class TravelQueryRequestTest {
         assertFalse(violations.isEmpty(), "Violations should be present for null end time");
         assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("End time cannot be null")),
                 "Violation for null end time should be present");
+
     }
 
 }

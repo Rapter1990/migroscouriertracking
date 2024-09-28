@@ -17,6 +17,7 @@ class DistanceInMetersCalculatorStrategyTest {
 
     @Test
     public void testCalculateDistance_sameLocation() {
+
         // Given
         Location startLoc = new Location(39.9255, 32.8662); // Ankara
         Location endLoc = new Location(39.9255, 32.8662); // Ankara
@@ -26,6 +27,7 @@ class DistanceInMetersCalculatorStrategyTest {
 
         // Then
         assertEquals(0.0, distance, 0.001); // Distance should be 0 meters
+
     }
 
 }

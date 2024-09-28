@@ -22,6 +22,7 @@ class DistanceUtilsTest {
 
     @Test
     public void testIsWithinRadiusReturnsTrueWhenWithinRadiusInKilometers() {
+
         double courierLat = 37.7749;
         double courierLng = -122.4194;
         double storeLat = 37.7750;
@@ -33,10 +34,12 @@ class DistanceUtilsTest {
         boolean result = DistanceUtils.isWithinRadius(courierLat, courierLng, storeLat, storeLng, radiusInMeters);
 
         assertTrue(result, "Courier should be within the radius of the store.");
+
     }
 
     @Test
     public void testIsWithinRadiusReturnsFalseWhenOutsideRadiusInKilometers() {
+
         double courierLat = 37.7749;
         double courierLng = -122.4194;
         double storeLat = 37.7800;
@@ -48,10 +51,12 @@ class DistanceUtilsTest {
         boolean result = DistanceUtils.isWithinRadius(courierLat, courierLng, storeLat, storeLng, radiusInMeters);
 
         assertFalse(result, "Courier should not be within the radius of the store.");
+
     }
 
     @Test
     public void testCalculateDistanceReturnsCorrectDistanceInKilometers() {
+
         double lat1 = 37.7749;
         double lng1 = -122.4194;
         double lat2 = 37.7750;
@@ -65,10 +70,12 @@ class DistanceUtilsTest {
 
         assertTrue(Math.abs(distance - expectedDistanceInKm) <= tolerance,
                 "Calculated distance should be within the expected range.");
+
     }
 
     @Test
     public void testIsMoreThanOneMinuteAgoReturnsTrue() {
+
         LocalDateTime lastTimestamp = LocalDateTime.now().minusMinutes(2);
         LocalDateTime currentTimestamp = LocalDateTime.now();
 
@@ -76,10 +83,12 @@ class DistanceUtilsTest {
         boolean result = DistanceUtils.isMoreThanOneMinuteAgo(lastTimestamp, currentTimestamp);
 
         assertTrue(result, "Timestamp should be more than one minute ago.");
+
     }
 
     @Test
     public void testIsMoreThanOneMinuteAgoReturnsFalse() {
+
         LocalDateTime lastTimestamp = LocalDateTime.now().minusSeconds(30);
         LocalDateTime currentTimestamp = LocalDateTime.now();
 
@@ -87,12 +96,14 @@ class DistanceUtilsTest {
         boolean result = DistanceUtils.isMoreThanOneMinuteAgo(lastTimestamp, currentTimestamp);
 
         assertFalse(result, "Timestamp should not be more than one minute ago.");
+
     }
 
     /**
      * Haversine formula to calculate the distance between two points on the Earth's surface.
      */
     private double haversine(double lat1, double lng1, double lat2, double lng2) {
+
         final double R = 6371.0; // Radius of the Earth in kilometers
         double dLat = Math.toRadians(lat2 - lat1);
         double dLng = Math.toRadians(lng2 - lng1);
@@ -101,5 +112,7 @@ class DistanceUtilsTest {
                         Math.sin(dLng / 2) * Math.sin(dLng / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
+
     }
+
 }
