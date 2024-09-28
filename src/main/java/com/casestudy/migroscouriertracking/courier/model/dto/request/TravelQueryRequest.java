@@ -24,12 +24,10 @@ public class TravelQueryRequest {
     private String storeName;
 
     @NotNull(message = "Start time cannot be null")
-    @PastOrPresent(message = "Start time must be in the past or present")
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime start;
 
     @NotNull(message = "End time cannot be null")
-    @FutureOrPresent(message = "End time must be in the future or present")
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime end;
 

@@ -65,7 +65,7 @@ public class CourierController {
      */
     @PostMapping("/travels")
     public CustomResponse<List<CourierResponse>> getTravelsByCourierIdStoreNameAndTimeRange(
-            @RequestBody TravelQueryRequest request) {
+            @RequestBody @Valid TravelQueryRequest request) {
         List<Courier> travels = courierService.getTravelsByCourierIdStoreNameAndTimeRange(request);
         List<CourierResponse> response = courierToCourierResponseMapper.map(travels);
         return CustomResponse.successOf(response);
