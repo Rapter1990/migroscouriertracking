@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+/**
+ * Service class named {@link CourierService} responsible for handling courier-related operations,
+ * including logging courier locations and retrieving travel records.
+ */
 @Service
 @RequiredArgsConstructor
 public class CourierService {
@@ -32,6 +36,17 @@ public class CourierService {
 
     private final CourierEntityToCourierMapper courierEntityToCourierMapper = CourierEntityToCourierMapper.initialize();
 
+    /**
+     * Logs the location of a courier based on the provided log request.
+     * Validates if the courier is within a certain radius of any store,
+     * ensures the timestamp is not before the store's creation time,
+     * and saves the courier's location if the last entry was more than one minute ago.
+     *
+     * @param logRequest the request object containing courier location details
+     * @throws StoreNotFoundException if no stores are found in the database
+     * @throws TimestampBeforeStoreCreateException if the timestamp is before the store's creation time
+     * @throws StoreFarAwayException if the courier is far away from all stores
+     */
     public void logCourierLocation(LogCourierLocationRequest logRequest) {
         String courierId = logRequest.getCourierId();
         double lat = logRequest.getLat();
@@ -63,6 +78,14 @@ public class CourierService {
         }
     }
 
+    /**
+     * Finds the last travel entry for a specific courier within a given timestamp range.
+     *
+     * @param courierId        the unique identifier of the courier
+     * @param storeName        the name of the store
+     * @param currentTimestamp the current timestamp to compare with
+     * @return the last travel entry for the courier, or null if not found
+     */
     private CourierEntity findLastTravelEntry(String courierId, String storeName, LocalDateTime currentTimestamp) {
         LocalDateTime oneMinuteAgo = currentTimestamp.minusMinutes(1);
         return courierRepository.findByCourierIdAndStoreNameAndTimestampBetween(courierId, storeName, oneMinuteAgo, currentTimestamp)
@@ -71,6 +94,13 @@ public class CourierService {
                 .orElse(null);
     }
 
+    /**
+     * Retrieves the past travels of a courier by their unique ID.
+     *
+     * @param courierId the unique identifier of the courier
+     * @return a list of Courier objects representing the courier's past travels
+     * @throws CourierNotFoundException if no travels are found for the given courier ID
+     */
     public List<Courier> getPastTravelsByCourierId(String courierId) {
         List<CourierEntity> entities = courierRepository.findByCourierId(courierId);
         Optional.ofNullable(entities)
@@ -79,6 +109,13 @@ public class CourierService {
         return courierEntityToCourierMapper.map(entities);
     }
 
+    /**
+     * Retrieves travels of a courier within a specified store name and time range.
+     *
+     * @param request the request object containing courier ID, store name, start time, and end time
+     * @return a list of Courier objects representing the courier's travels
+     * @throws CourierNotFoundException if no travels are found for the given criteria
+     */
     public List<Courier> getTravelsByCourierIdStoreNameAndTimeRange(TravelQueryRequest request) {
         String courierId = request.getCourierId();
         String storeName = request.getStoreName();
@@ -92,6 +129,13 @@ public class CourierService {
         return courierEntityToCourierMapper.map(entities);
     }
 
+    /**
+     * Calculates the total travel distance of a courier based on their travel records.
+     *
+     * @param courierId the unique identifier of the courier
+     * @return the total travel distance in kilometers
+     * @throws CourierNotFoundException if no travel records are found for the given courier ID
+     */
     public double getTotalTravelDistance(String courierId) {
         List<CourierEntity> travels = courierRepository.findByCourierIdOrderByTimestampAsc(courierId);
         Optional.ofNullable(travels)

@@ -17,9 +17,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Global exception handler class named {@link GlobalExceptionHandler} for the application, responsible for handling specific exceptions
+ * thrown by the controllers and returning appropriate HTTP responses.
+ * This class handles various types of exceptions including validation errors, runtime exceptions,
+ * and custom exceptions related to the courier and store operations.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles MethodArgumentNotValidException thrown when validation on an argument annotated with
+     * {@code @Valid} fails.
+     *
+     * @param ex the MethodArgumentNotValidException thrown
+     * @return ResponseEntity containing the custom error response with validation details
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex) {
 
@@ -49,6 +62,12 @@ public class GlobalExceptionHandler {
 
     }
 
+    /**
+     * Handles ConstraintViolationException thrown when a method parameter validation fails.
+     *
+     * @param constraintViolationException the ConstraintViolationException thrown
+     * @return ResponseEntity containing the custom error response with constraint violation details
+     */
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<Object> handlePathVariableErrors(final ConstraintViolationException constraintViolationException) {
 
@@ -76,6 +95,12 @@ public class GlobalExceptionHandler {
 
     }
 
+    /**
+     * Handles generic RuntimeException that may occur in the application.
+     *
+     * @param runtimeException the RuntimeException thrown
+     * @return ResponseEntity containing the custom error response with the exception message
+     */
     @ExceptionHandler(RuntimeException.class)
     protected ResponseEntity<?> handleRuntimeException(final RuntimeException runtimeException) {
         CustomError customError = CustomError.builder()
@@ -87,6 +112,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(customError, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles CourierNotFoundException thrown when a courier is not found in the system.
+     *
+     * @param ex the CourierNotFoundException thrown
+     * @return ResponseEntity containing the custom error response with the exception message
+     */
     @ExceptionHandler(CourierNotFoundException.class)
     protected ResponseEntity<CustomError> handleCourierNotFound(final CourierNotFoundException ex) {
         CustomError customError = CustomError.builder()
@@ -98,6 +129,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(customError, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles StoreFarAwayException thrown when a store is considered too far away.
+     *
+     * @param ex the StoreFarAwayException thrown
+     * @return ResponseEntity containing the custom error response with the exception message
+     */
     @ExceptionHandler(StoreFarAwayException.class)
     protected ResponseEntity<CustomError> handleStoreFarAway(final StoreFarAwayException ex) {
         CustomError customError = CustomError.builder()
@@ -109,6 +146,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(customError, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles StoreNotFoundException thrown when a store is not found in the system.
+     *
+     * @param ex the StoreNotFoundException thrown
+     * @return ResponseEntity containing the custom error response with the exception message
+     */
     @ExceptionHandler(StoreNotFoundException.class)
     protected ResponseEntity<CustomError> handleStoreNotFound(final StoreNotFoundException ex) {
         CustomError customError = CustomError.builder()
@@ -120,6 +163,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(customError, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles TimestampBeforeStoreCreateException thrown when an operation has a timestamp
+     * that precedes the creation of the store.
+     *
+     * @param ex the TimestampBeforeStoreCreateException thrown
+     * @return ResponseEntity containing the custom error response with the exception message
+     */
     @ExceptionHandler(TimestampBeforeStoreCreateException.class)
     protected ResponseEntity<CustomError> handleTimestampBeforeStoreCreate(final TimestampBeforeStoreCreateException ex) {
         CustomError customError = CustomError.builder()
@@ -130,6 +180,5 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(customError, HttpStatus.BAD_REQUEST);
     }
-
 
 }

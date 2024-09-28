@@ -26,6 +26,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for the {@link CourierService} class, validating methods related to
+ * logging courier locations, retrieving past travels, and calculating total travel distance.
+ */
 class CourierServiceTest extends AbstractBaseServiceTest {
 
     @InjectMocks

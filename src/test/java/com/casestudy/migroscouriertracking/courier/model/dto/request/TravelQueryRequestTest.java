@@ -12,6 +12,10 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Unit tests for the {@link TravelQueryRequest} class, validating constraints on
+ * start and end times, UUID format, and store name properties.
+ */
 class TravelQueryRequestTest {
 
     private final Validator validator;

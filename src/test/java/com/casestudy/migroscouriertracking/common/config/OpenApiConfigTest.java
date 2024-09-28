@@ -7,7 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+/**
+ * Unit tests for verifying OpenAPI configuration in {@link OpenApiConfig}.
+ * Tests the correctness of {@link OpenAPIDefinition} and its metadata.
+ */
 class OpenApiConfigTest {
 
     @Test

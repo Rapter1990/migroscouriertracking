@@ -19,6 +19,12 @@ public class DataLoader {
 
     private final StoreRepository storeRepository;
 
+    /**
+     * Loads initial store data into the database when the application starts.
+     *
+     * @return a CommandLineRunner that loads a predefined list of StoreEntity
+     *         instances into the StoreRepository.
+     */
     @Bean
     public CommandLineRunner loadInitialData() {
         return args -> {

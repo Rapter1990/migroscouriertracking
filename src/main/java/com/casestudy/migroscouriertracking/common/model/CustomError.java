@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * A class named {@link CustomError} that represents a custom error response.
+ */
 @Getter
 @Builder
 public class CustomError {
@@ -29,6 +32,9 @@ public class CustomError {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<CustomSubError> subErrors;
 
+    /**
+     * A class named {@link CustomSubError} representing a sub-error within a {@link CustomError}.
+     */
     @Getter
     @Builder
     public static class CustomSubError {
@@ -45,6 +51,9 @@ public class CustomError {
 
     }
 
+    /**
+     * An enumeration class named {@link Header} representing different headers for custom errors.
+     */
     @Getter
     @RequiredArgsConstructor
     public enum Header {

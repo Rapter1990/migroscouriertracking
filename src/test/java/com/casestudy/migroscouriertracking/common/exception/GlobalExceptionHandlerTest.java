@@ -28,6 +28,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for verifying the behavior of {@link GlobalExceptionHandler}.
+ * Tests various exception handling scenarios to ensure correct HTTP responses and error messages.
+ */
 class GlobalExceptionHandlerTest extends AbstractRestControllerTest {
 
     @InjectMocks

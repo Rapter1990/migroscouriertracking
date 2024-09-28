@@ -4,6 +4,10 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a domain object named {@link Courier} with relevant details including location and associated store.
+ * This class serves as a data model for tracking courier information.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

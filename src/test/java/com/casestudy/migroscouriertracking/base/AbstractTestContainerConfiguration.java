@@ -6,6 +6,11 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+/**
+ * Base class named {@link AbstractTestContainerConfiguration} for configuring test containers with {@link MySQLContainer}.
+ * Provides dynamic property overrides using {@link DynamicPropertyRegistry}
+ * for integration testing with MySQL.
+ */
 @Testcontainers
 public abstract class AbstractTestContainerConfiguration {
 

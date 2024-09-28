@@ -9,6 +9,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a request named {@link LogCourierLocationRequest} to log the location of a courier.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

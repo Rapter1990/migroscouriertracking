@@ -4,6 +4,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents the response named {@link CourierResponse} containing information about a courier's location and associated details.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -4,6 +4,11 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 
+/**
+ * Configuration class named {@link OpenApiConfig} for OpenAPI documentation in the Migros Courier Tracking application.
+ * This class defines the metadata for the OpenAPI documentation, including the title, version,
+ * description, and contact information for the API.
+ */
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(

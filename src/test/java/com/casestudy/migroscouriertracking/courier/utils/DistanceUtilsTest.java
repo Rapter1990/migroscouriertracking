@@ -8,6 +8,10 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link DistanceUtils} class, verifying the utility methods for distance
+ * calculations, radius checks, and timestamp comparisons.
+ */
 class DistanceUtilsTest {
 
     @Test

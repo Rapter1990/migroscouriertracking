@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a request named {@link TravelQueryRequest} for querying courier travel details based on various criteria.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,6 +33,11 @@ public class TravelQueryRequest {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime end;
 
+    /**
+     * Validates that the start time is before the end time.
+     *
+     * @return true if the start time is before the end time; false otherwise.
+     */
     @AssertTrue(message = "Start time must be before end time")
     public boolean isValidTimeRange() {
         return start != null && end != null && start.isBefore(end);

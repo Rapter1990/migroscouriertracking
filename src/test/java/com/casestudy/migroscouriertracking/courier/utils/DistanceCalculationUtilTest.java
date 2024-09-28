@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Unit tests for the {@link DistanceCalculationUtil} class, validating distance calculations
+ * between {@link Location} objects and handling exceptions for invalid distance types.
+ */
 class DistanceCalculationUtilTest {
 
     private Location startLoc;

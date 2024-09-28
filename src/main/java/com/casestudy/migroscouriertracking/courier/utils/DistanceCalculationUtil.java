@@ -10,7 +10,9 @@ import lombok.experimental.UtilityClass;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Utility class named {@link DistanceCalculationUtil} for calculating distances between two locations using various strategies.
+ */
 @UtilityClass
 public class DistanceCalculationUtil {
 
@@ -19,8 +21,16 @@ public class DistanceCalculationUtil {
         put(DistanceType.KILOMETERS, new DistanceInKilometersCalculatorStrategy());
     }};
 
-
-    public static double calculateDistance(Location startLoc, Location endLoc, DistanceType distanceType) {
+    /**
+     * Calculates the distance between two locations based on the specified distance type.
+     *
+     * @param startLoc   the starting location
+     * @param endLoc     the ending location
+     * @param distanceType the type of distance to calculate (e.g., METERS or KILOMETERS)
+     * @return the calculated distance between the two locations
+     * @throws IllegalArgumentException if the specified distance type is invalid
+     */
+    public double calculateDistance(Location startLoc, Location endLoc, DistanceType distanceType) {
         DistanceCalculationStrategy strategy = distanceCalculationStrategies.get(distanceType);
         if (strategy != null) {
             return strategy.calculateDistance(startLoc, endLoc);
@@ -28,5 +38,5 @@ public class DistanceCalculationUtil {
             throw new IllegalArgumentException("Invalid distance type");
         }
     }
-}
 
+}

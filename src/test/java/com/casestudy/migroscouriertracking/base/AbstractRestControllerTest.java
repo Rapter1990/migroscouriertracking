@@ -6,6 +6,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+/**
+ * Base class named {@link AbstractRestControllerTest} for controller layer tests using {@link MockMvc} and {@link ObjectMapper}.
+ * Extends {@link AbstractTestContainerConfiguration} to configure the test environment.
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AbstractRestControllerTest extends AbstractTestContainerConfiguration {

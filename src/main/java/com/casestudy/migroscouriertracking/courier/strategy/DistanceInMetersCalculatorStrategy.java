@@ -6,16 +6,30 @@ import com.casestudy.migroscouriertracking.courier.model.Location;
  * Strategy for calculating distance in meters.
  */
 public class DistanceInMetersCalculatorStrategy implements DistanceCalculationStrategy {
+
     private final double earthRadiusInMeters = 6371000.0;
 
-
+    /**
+     * Calculates the distance between two locations in meters.
+     *
+     * @param startLoc the starting location
+     * @param endLoc   the ending location
+     * @return the distance between the two locations in meters
+     */
     @Override
     public double calculateDistance(Location startLoc, Location endLoc) {
         double centralAngle = calculateGreatCircleDistance(startLoc, endLoc);
         return earthRadiusInMeters * centralAngle;
     }
 
-
+    /**
+     * Calculates the central angle between two locations using the
+     * Haversine formula.
+     *
+     * @param startLoc the starting location
+     * @param endLoc   the ending location
+     * @return the central angle in radians
+     */
     private double calculateGreatCircleDistance(Location startLoc, Location endLoc) {
         double latOne = Math.toRadians(startLoc.getLatitude());
         double lngOne = Math.toRadians(startLoc.getLongitude());
@@ -30,5 +44,5 @@ public class DistanceInMetersCalculatorStrategy implements DistanceCalculationSt
                         Math.sin(diffOfLng / 2) * Math.sin(diffOfLng / 2);
         return 2 * Math.atan2(Math.sqrt(ax), Math.sqrt(1 - ax));
     }
-}
 
+}

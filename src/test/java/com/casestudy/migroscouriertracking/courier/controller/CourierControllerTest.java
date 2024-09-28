@@ -22,6 +22,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * Integration tests for the {@link CourierController} class, verifying the functionality
+ * of endpoints related to logging courier locations and retrieving travel data.
+ */
 class CourierControllerTest extends AbstractRestControllerTest {
 
     @MockBean

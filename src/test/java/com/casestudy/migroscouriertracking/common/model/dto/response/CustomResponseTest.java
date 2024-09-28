@@ -7,6 +7,10 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit tests for the {@link CustomResponse} class, verifying the creation of custom responses
+ * and their expected behavior, particularly for error states.
+ */
 class CustomResponseTest {
 
     @Test

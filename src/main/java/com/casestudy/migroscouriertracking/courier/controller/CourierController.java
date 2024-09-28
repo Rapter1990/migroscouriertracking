@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller named {@link CourierController} for managing courier operations.
+ * This controller handles requests related to couriers, including logging their
+ * locations, retrieving past travels, and calculating total travel distance.
+ */
 @RestController
 @RequestMapping("/api/couriers")
 @RequiredArgsConstructor
@@ -25,6 +30,12 @@ public class CourierController {
 
     private final CourierToCourierResponseMapper courierToCourierResponseMapper = CourierToCourierResponseMapper.initialize();;
 
+    /**
+     * Logs the location of a courier.
+     *
+     * @param logRequest the request containing the courier's location details
+     * @return a CustomResponse indicating the success of the operation
+     */
     @PostMapping("/log-location")
     public CustomResponse<String> logCourierLocation(
             @RequestBody @Valid LogCourierLocationRequest logRequest) {
@@ -32,6 +43,12 @@ public class CourierController {
         return CustomResponse.successOf("Location logged successfully.");
     }
 
+    /**
+     * Retrieves the past travels of a courier by their ID.
+     *
+     * @param courierId the ID of the courier whose travels are to be retrieved
+     * @return a CustomResponse containing a list of CourierResponse objects representing the courier's past travels
+     */
     @GetMapping("/travels/{courierId}")
     public CustomResponse<List<CourierResponse>> getPastTravels(
             @PathVariable @UUID String courierId) {
@@ -40,6 +57,12 @@ public class CourierController {
         return CustomResponse.successOf(response);
     }
 
+    /**
+     * Retrieves travels of a courier based on courier ID, store name, and time range.
+     *
+     * @param request the request containing the criteria for the travel query
+     * @return a CustomResponse containing a list of CourierResponse objects matching the criteria
+     */
     @PostMapping("/travels")
     public CustomResponse<List<CourierResponse>> getTravelsByCourierIdStoreNameAndTimeRange(
             @RequestBody TravelQueryRequest request) {
@@ -48,6 +71,12 @@ public class CourierController {
         return CustomResponse.successOf(response);
     }
 
+    /**
+     * Retrieves the total travel distance of a courier by their ID.
+     *
+     * @param courierId the ID of the courier whose total travel distance is to be retrieved
+     * @return a CustomResponse containing the total travel distance formatted as a string
+     */
     @GetMapping("/travels/{courierId}/total-distance")
     public CustomResponse<String> getTotalTravelDistance(
             @PathVariable @UUID String courierId) {

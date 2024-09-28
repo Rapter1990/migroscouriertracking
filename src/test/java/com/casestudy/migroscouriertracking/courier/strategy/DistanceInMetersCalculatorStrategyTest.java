@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit tests for the {@link DistanceInMetersCalculatorStrategy} class, focusing on
+ * calculating distances between locations, including scenarios for same-location distance calculations.
+ */
 class DistanceInMetersCalculatorStrategyTest {
 
     private DistanceInMetersCalculatorStrategy distanceCalculator;

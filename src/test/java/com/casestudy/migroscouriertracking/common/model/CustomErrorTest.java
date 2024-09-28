@@ -4,6 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit tests for the {@link CustomError.CustomSubError} class, ensuring proper creation
+ * and retrieval of error subfield values in various scenarios.
+ */
 class CustomErrorTest {
 
     @Test
