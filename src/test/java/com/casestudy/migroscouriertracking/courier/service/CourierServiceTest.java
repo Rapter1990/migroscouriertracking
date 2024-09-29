@@ -247,7 +247,7 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     }
 
     @Test
-    void getTravelsByCourierIdStoreNameAndTimeRange_shouldReturnTravelsWithinTimeRange() {
+    void getTravelsByCourierIdAndTravelQueryRequest_shouldReturnTravelsWithinTimeRange() {
 
         // Given
         String courierId = UUID.randomUUID().toString();
