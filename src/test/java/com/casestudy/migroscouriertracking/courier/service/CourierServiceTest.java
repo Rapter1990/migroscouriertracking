@@ -48,7 +48,7 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void logCourierLocation_shouldSaveCourierLocation_ifWithinRadiusAndTimestampValid() {
 
         // Given
-        String courierId = "courier1";
+        String courierId = UUID.randomUUID().toString();
         double lat = 37.7749;
         double lng = -122.4194;
         LocalDateTime timestamp = LocalDateTime.now();
@@ -93,7 +93,7 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void logCourierLocation_shouldThrowTimestampBeforeStoreCreateException_ifTimestampIsBeforeStoreCreation() {
 
         // Given
-        String courierId = "courier1";
+        String courierId = UUID.randomUUID().toString();
         double lat = 37.7749;
         double lng = -122.4194;
         LocalDateTime timestamp = LocalDateTime.now();
@@ -129,8 +129,10 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void logCourierLocation_shouldThrowStoreFarAwayException_ifCourierIsFarAwayFromAllStores() {
 
         // Given
+        String courierId = UUID.randomUUID().toString();
+
         LogCourierLocationRequest logRequest = LogCourierLocationRequest.builder()
-                .courierId("courier1")
+                .courierId(courierId)
                 .lat(37.7749)
                 .lng(-122.4194)
                 .timestamp(LocalDateTime.now())
@@ -158,7 +160,7 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void getPastTravelsByCourierId_shouldReturnTravelsForGivenCourierId() {
 
         // Given
-        String courierId = "courier1";
+        String courierId = UUID.randomUUID().toString();
 
         List<CourierEntity> courierEntities = List.of(CourierEntity.builder()
                 .id(UUID.randomUUID().toString())
@@ -189,8 +191,10 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void getTravelsByCourierIdStoreNameAndTimeRange_shouldReturnTravelsWithinTimeRange() {
 
         // Given
+        String courierId = UUID.randomUUID().toString();
+
         TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId("courier1")
+                .courierId(courierId)
                 .storeName("store1")
                 .start(LocalDateTime.now().minusHours(1))
                 .end(LocalDateTime.now())
@@ -198,7 +202,7 @@ class CourierServiceTest extends AbstractBaseServiceTest {
 
         List<CourierEntity> courierEntities = List.of(CourierEntity.builder()
                 .id(UUID.randomUUID().toString())
-                .courierId("courier1")
+                .courierId(courierId)
                 .lat(37.7749)
                 .lng(-122.4194)
                 .storeName("store1")
@@ -225,7 +229,7 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void getTotalTravelDistance_shouldReturnTotalDistanceTraveledByCourier() {
 
         // Given
-        String courierId = "courier1";
+        String courierId = UUID.randomUUID().toString();
         LocalDateTime timestamp1 = LocalDateTime.now().minusMinutes(2);
         LocalDateTime timestamp2 = LocalDateTime.now();
         double lat1 = 37.7749;
