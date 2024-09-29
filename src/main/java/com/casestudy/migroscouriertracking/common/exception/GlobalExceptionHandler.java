@@ -32,17 +32,34 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex) {
-
         List<CustomError.CustomSubError> subErrors = new ArrayList<>();
 
+        // Check for specific validation exceptions, like TimestampAfterStoreCreationException
+        boolean hasTimestampError = ex.getBindingResult().getAllErrors().stream()
+                .anyMatch(error -> error.getCode() != null && error.getCode().contains("TimestampAfterStoreCreation"));
+
+        // If there's a timestamp error, add a specific CustomSubError
+        if (hasTimestampError) {
+            subErrors.add(CustomError.CustomSubError.builder()
+                    .field("timestamp")
+                    .message("Timestamp must be after the nearest store's creation time")
+                    .build());
+        }
+
+        // Process general validation errors
         ex.getBindingResult().getAllErrors().forEach(
                 error -> {
+                    if (!(error instanceof FieldError) || hasTimestampError) {
+                        return; // Skip if already handling timestamp error
+                    }
                     String fieldName = ((FieldError) error).getField();
                     String message = error.getDefaultMessage();
                     subErrors.add(
                             CustomError.CustomSubError.builder()
                                     .field(fieldName)
                                     .message(message)
+                                    .value(error.getDefaultMessage())
+                                    .type(error.getCode())
                                     .build()
                     );
                 }
@@ -56,8 +73,8 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(customError, HttpStatus.BAD_REQUEST);
-
     }
+
 
     /**
      * Handles ConstraintViolationException thrown when a method parameter validation fails.
@@ -194,6 +211,23 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(customError, HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Handles TimestampAfterStoreCreationException thrown when the timestamp is not valid.
+     *
+     * @param ex the TimestampAfterStoreCreationException thrown
+     * @return ResponseEntity containing the custom error response with the exception message
+     */
+    @ExceptionHandler(TimestampAfterStoreCreationException.class)
+    protected ResponseEntity<CustomError> handleTimestampAfterStoreCreation(final TimestampAfterStoreCreationException ex) {
+        CustomError customError = CustomError.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST) // Use BAD_REQUEST status for validation issues
+                .header(CustomError.Header.API_ERROR.getName())
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(customError, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -37,7 +37,6 @@ class GlobalExceptionHandlerTest extends AbstractRestControllerTest {
     @Test
     @DisplayName("Given MethodArgumentNotValidException - When HandleMethodArgumentNotValid - Then Return RespondWithBadRequest")
     void givenMethodArgumentNotValidException_whenHandleMethodArgumentNotValid_thenReturnRespondWithBadRequest() {
-
         // Given
         BindingResult bindingResult = mock(BindingResult.class);
         MethodArgumentNotValidException ex = new MethodArgumentNotValidException(null, bindingResult);
@@ -54,6 +53,39 @@ class GlobalExceptionHandlerTest extends AbstractRestControllerTest {
                         CustomError.CustomSubError.builder()
                                 .field("fieldName")
                                 .message("error message")
+                                .value("error message")
+                                .build()))
+                .build();
+
+        // When
+        ResponseEntity<Object> responseEntity = globalExceptionHandler.handleMethodArgumentNotValid(ex);
+
+        // Then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        CustomError actualError = (CustomError) responseEntity.getBody();
+        checkCustomError(expectedError, actualError);
+    }
+
+    @Test
+    @DisplayName("Given MethodArgumentNotValidException with TimestampAfterStoreCreation - When HandleMethodArgumentNotValid - Then Return Custom Timestamp Error")
+    void givenMethodArgumentNotValidExceptionWithTimestampError_whenHandleMethodArgumentNotValid_thenReturnCustomTimestampError() {
+        // Given
+        BindingResult bindingResult = mock(BindingResult.class);
+        MethodArgumentNotValidException ex = new MethodArgumentNotValidException(null, bindingResult);
+        FieldError timestampError = new FieldError("objectName", "timestamp", "Timestamp must be after the nearest store's creation time");
+
+        List<ObjectError> objectErrors = Collections.singletonList(timestampError);
+        when(bindingResult.getAllErrors()).thenReturn(objectErrors);
+
+        CustomError expectedError = CustomError.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .header(CustomError.Header.VALIDATION_ERROR.getName())
+                .message("Validation failed")
+                .subErrors(Collections.singletonList(
+                        CustomError.CustomSubError.builder()
+                                .field("timestamp")
+                                .message("Timestamp must be after the nearest store's creation time")
+                                .value("Timestamp must be after the nearest store's creation time")
                                 .build()))
                 .build();
 
@@ -66,6 +98,7 @@ class GlobalExceptionHandlerTest extends AbstractRestControllerTest {
         checkCustomError(expectedError, actualError);
 
     }
+
 
     @Test
     @DisplayName("Given MethodArgumentNotValidException - When HandleMethodArgumentNotValidWithObjectError - Return RespondWithBadRequest")
@@ -87,6 +120,7 @@ class GlobalExceptionHandlerTest extends AbstractRestControllerTest {
                         CustomError.CustomSubError.builder()
                                 .field("fieldName")
                                 .message("error message")
+                                .value("error message")
                                 .build()))
                 .build();
 
@@ -277,6 +311,29 @@ class GlobalExceptionHandlerTest extends AbstractRestControllerTest {
 
         // Then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+        CustomError actualError = responseEntity.getBody();
+        checkCustomError(expectedError, actualError);
+    }
+
+    @Test
+    @DisplayName("Given TimestampAfterStoreCreationException - When HandleTimestampAfterStoreCreation - Then Return RespondWithConflict")
+    void givenTimestampAfterStoreCreationException_whenHandleTimestampAfterStoreCreation_thenReturnRespondWithConflict() {
+
+        // Given
+        TimestampAfterStoreCreationException ex = new TimestampAfterStoreCreationException("Timestamp must be after the store's creation time");
+
+        CustomError expectedError = CustomError.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .header(CustomError.Header.API_ERROR.getName())
+                .message("Timestamp must be after the store's creation time")
+                .isSuccess(false)
+                .build();
+
+        // When
+        ResponseEntity<CustomError> responseEntity = globalExceptionHandler.handleTimestampAfterStoreCreation(ex);
+
+        // Then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         CustomError actualError = responseEntity.getBody();
         checkCustomError(expectedError, actualError);
     }
