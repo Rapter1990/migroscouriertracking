@@ -2,7 +2,10 @@ package com.casestudy.migroscouriertracking.courier.model.dto.request;
 
 import com.casestudy.migroscouriertracking.courier.utils.validator.TimestampAfterStoreCreation;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.time.LocalDateTime;
