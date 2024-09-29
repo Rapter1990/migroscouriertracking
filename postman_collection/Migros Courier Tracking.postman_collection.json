@@ -7,301 +7,325 @@
 	},
 	"item": [
 		{
-			"name": "Log Courier Location Far Away Location Throws",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 40.712776,\r\n    \"lng\": -74.005974,\r\n    \"timestamp\": \"29/09/2024 16:20\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "courier",
+			"item": [
+				{
+					"name": "Log Courier Location Far Away Location Throws",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 40.712776,\r\n    \"lng\": -74.005974,\r\n    \"timestamp\": \"29/09/2024 23:16\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/log-location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"log-location"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/log-location",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"log-location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Log Courier Location First Location (Market 1) Timestamp Before Store's creation time Exception",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 40.9923307,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 29.1244229,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 16:19\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Log Courier Location First Location (Market 1) Timestamp Before Store's creation time Exception",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 40.9923307,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 29.1244229,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 22:13\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/log-location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"log-location"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/log-location",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"log-location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Log Courier Location First Location (Market 1)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 40.9923307,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 29.1244229,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 16:22\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Log Courier Location First Location (Market 1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 40.9923307,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 29.1244229,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 23:17\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/log-location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"log-location"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/log-location",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"log-location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Log Courier Location Second Location (Market 2)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 40.986206,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 29.116143,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 16:23\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Log Courier Location Second Location (Market 2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 40.986206,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 29.116143,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 23:18\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/log-location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"log-location"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/log-location",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"log-location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Log Courier Location Third Location (Market 3)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 41.006700,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 28.655200,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 16:24\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Log Courier Location Third Location (Market 3)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 41.006700,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 28.655200,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 23:19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/log-location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"log-location"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/log-location",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"log-location"
-					]
+				{
+					"name": "Log Courier Location Four Location (Market 4)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 41.055750,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 29.021050,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 23:20\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/log-location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"log-location"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Log Courier Location Four Location (Market 4)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"lat\": 41.055750,  // Slightly adjusted to be within 100 meters\r\n    \"lng\": 29.021050,  // Slightly adjusted to be within 100 meters\r\n    \"timestamp\": \"29/09/2024 16:25\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "travels",
+			"item": [
+				{
+					"name": "Get Past Travels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/travels/:courierId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"travels",
+								":courierId"
+							],
+							"variable": [
+								{
+									"key": "courierId",
+									"value": "550e8400-e29b-41d4-a716-446655440000"
+								}
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/log-location",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"log-location"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Past Travels",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/travels/:courierId",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"travels",
-						":courierId"
-					],
-					"variable": [
-						{
-							"key": "courierId",
-							"value": "550e8400-e29b-41d4-a716-446655440000"
+				{
+					"name": "Get Travels By Courier ID, Store Name, and Time Range",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"storeName\": \"Ataşehir MMM Migros\",\r\n    \"start\": \"29/09/2024 23:16\",\r\n    \"end\": \"29/09/2024 23:20\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/travels/:courierId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"travels",
+								":courierId"
+							],
+							"variable": [
+								{
+									"key": "courierId",
+									"value": "550e8400-e29b-41d4-a716-446655440000"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Travels By Courier ID, Store Name, and Time Range",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"storeName\": \"Ataşehir MMM Migros\",\r\n    \"start\": \"29/09/2024 16:20\",\r\n    \"end\": \"29/09/2024 16:25\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/travels",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"travels"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Travels By Courier ID, Store Name, and Time Range Timestamp Before Store Create Exception",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"courierId\": \"550e8400-e29b-41d4-a716-446655440000\",\r\n    \"storeName\": \"Ataşehir MMM Migros\",\r\n    \"start\": \"28/09/2024 01:30\",\r\n    \"end\": \"28/09/2024 01:22\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Get Travels By Courier ID, Store Name, and Time Range Timestamp Before Store Create Exception",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"storeName\": \"Ataşehir MMM Migros\",\r\n    \"start\": \"28/09/2024 01:30\",\r\n    \"end\": \"28/09/2024 01:22\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/travels/:courierId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"travels",
+								":courierId"
+							],
+							"variable": [
+								{
+									"key": "courierId",
+									"value": "550e8400-e29b-41d4-a716-446655440000"
+								}
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/travels",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"travels"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Total Travel Distance",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:1226/api/couriers/travels/:courierId/total-distance",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "1226",
-					"path": [
-						"api",
-						"couriers",
-						"travels",
-						":courierId",
-						"total-distance"
-					],
-					"variable": [
-						{
-							"key": "courierId",
-							"value": "550e8400-e29b-41d4-a716-446655440000"
+				{
+					"name": "Get Total Travel Distance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1226/api/couriers/travels/:courierId/total-distance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1226",
+							"path": [
+								"api",
+								"couriers",
+								"travels",
+								":courierId",
+								"total-distance"
+							],
+							"variable": [
+								{
+									"key": "courierId",
+									"value": "550e8400-e29b-41d4-a716-446655440000"
+								}
+							]
 						}
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
