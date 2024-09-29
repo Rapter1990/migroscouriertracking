@@ -2,10 +2,7 @@ package com.casestudy.migroscouriertracking.common.exception;
 
 import com.casestudy.migroscouriertracking.base.AbstractRestControllerTest;
 import com.casestudy.migroscouriertracking.common.model.CustomError;
-import com.casestudy.migroscouriertracking.courier.exception.CourierNotFoundException;
-import com.casestudy.migroscouriertracking.courier.exception.StoreFarAwayException;
-import com.casestudy.migroscouriertracking.courier.exception.StoreNotFoundException;
-import com.casestudy.migroscouriertracking.courier.exception.TimestampBeforeStoreCreateException;
+import com.casestudy.migroscouriertracking.courier.exception.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
@@ -261,7 +258,28 @@ class GlobalExceptionHandlerTest extends AbstractRestControllerTest {
         checkCustomError(expectedError, actualError);
     }
 
+    @Test
+    @DisplayName("Given StoreReentryTooSoonException - When HandleStoreReentryTooSoon - Then Return RespondWithConflict")
+    void givenStoreReentryTooSoonException_whenHandleStoreReentryTooSoon_thenReturnRespondWithConflict() {
 
+        // Given
+        StoreReentryTooSoonException ex = new StoreReentryTooSoonException("Reentry to the store is too soon");
+
+        CustomError expectedError = CustomError.builder()
+                .httpStatus(HttpStatus.CONFLICT)
+                .header(CustomError.Header.API_ERROR.getName())
+                .message("Reentry to the store is too soon")
+                .isSuccess(false)
+                .build();
+
+        // When
+        ResponseEntity<CustomError> responseEntity = globalExceptionHandler.handleStoreReentryTooSoon(ex);
+
+        // Then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+        CustomError actualError = responseEntity.getBody();
+        checkCustomError(expectedError, actualError);
+    }
 
 
     private void checkCustomError(CustomError expectedError, CustomError actualError) {

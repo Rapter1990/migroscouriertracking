@@ -2,6 +2,7 @@ package com.casestudy.migroscouriertracking.courier.service;
 
 import com.casestudy.migroscouriertracking.base.AbstractBaseServiceTest;
 import com.casestudy.migroscouriertracking.courier.exception.StoreFarAwayException;
+import com.casestudy.migroscouriertracking.courier.exception.StoreReentryTooSoonException;
 import com.casestudy.migroscouriertracking.courier.exception.TimestampBeforeStoreCreateException;
 import com.casestudy.migroscouriertracking.courier.model.Courier;
 import com.casestudy.migroscouriertracking.courier.model.dto.request.LogCourierLocationRequest;
@@ -23,6 +24,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -157,6 +159,63 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     }
 
     @Test
+    void logCourierLocation_shouldThrowStoreReentryTooSoonException_ifReenteringSameStoreTooSoon() {
+
+        // Given
+        String courierId = UUID.randomUUID().toString();
+        double lat = 37.7749;
+        double lng = -122.4194;
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime lastEntryTimestamp = now.minusSeconds(30); // Last entry within 30 seconds
+
+        LogCourierLocationRequest logRequest = LogCourierLocationRequest.builder()
+                .courierId(courierId)
+                .lat(lat)
+                .lng(lng)
+                .timestamp(now)
+                .build();
+
+        StoreEntity store = StoreEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .name("store1")
+                .lat(37.7750)
+                .lng(-122.4183)
+                .createdAt(now.minusMinutes(10))
+                .build();
+
+        CourierEntity lastTravelEntry = CourierEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .courierId(courierId)
+                .lat(lat)
+                .lng(lng)
+                .storeName(store.getName())
+                .timestamp(lastEntryTimestamp)
+                .build();
+
+        // When
+        when(storeRepository.findAll()).thenReturn(List.of(store));
+        when(courierRepository.findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(
+                eq(courierId),
+                eq(store.getName()),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class)
+        )).thenReturn(List.of(lastTravelEntry));
+
+        // Then
+        assertThrows(StoreReentryTooSoonException.class, () -> courierService.logCourierLocation(logRequest));
+
+        // Verify
+        verify(storeRepository).findAll();
+        verify(courierRepository).findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(
+                eq(courierId),
+                eq(store.getName()),
+                any(LocalDateTime.class),
+                any(LocalDateTime.class)
+        );
+
+    }
+
+    @Test
     void getPastTravelsByCourierId_shouldReturnTravelsForGivenCourierId() {
 
         // Given
@@ -212,7 +271,7 @@ class CourierServiceTest extends AbstractBaseServiceTest {
         List<Courier> couriers = courierEntityToCourierMapper.map(courierEntities);
 
         // When
-        when(courierRepository.findByCourierIdAndStoreNameAndTimestampBetween(request.getCourierId(), request.getStoreName(), request.getStart(), request.getEnd())).thenReturn(courierEntities);
+        when(courierRepository.findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(request.getCourierId(), request.getStoreName(), request.getStart(), request.getEnd())).thenReturn(courierEntities);
 
         // Then
         List<Courier> result = courierService.getTravelsByCourierIdStoreNameAndTimeRange(request);
@@ -221,7 +280,7 @@ class CourierServiceTest extends AbstractBaseServiceTest {
         assertEquals(couriers.get(0).getCourierId(), result.get(0).getCourierId());
 
         // Verify
-        verify(courierRepository).findByCourierIdAndStoreNameAndTimestampBetween(request.getCourierId(), request.getStoreName(), request.getStart(), request.getEnd());
+        verify(courierRepository).findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(request.getCourierId(), request.getStoreName(), request.getStart(), request.getEnd());
 
     }
 

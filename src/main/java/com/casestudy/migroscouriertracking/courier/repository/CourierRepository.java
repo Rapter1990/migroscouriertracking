@@ -22,15 +22,15 @@ public interface CourierRepository extends JpaRepository<CourierEntity, String> 
 
     /**
      * Finds a list of CourierEntities associated with the specified courier ID, store name,
-     * and within the provided timestamp range.
+     * and within the provided timestamp range, ordered by timestamp in descending order.
      *
      * @param courierId the unique identifier of the courier
      * @param storeName the name of the store
      * @param start     the start timestamp of the range
      * @param end       the end timestamp of the range
-     * @return a list of CourierEntities that match the given criteria
+     * @return a list of CourierEntities that match the given criteria, ordered by timestamp descending
      */
-    List<CourierEntity> findByCourierIdAndStoreNameAndTimestampBetween(String courierId, String storeName, LocalDateTime start, LocalDateTime end);
+    List<CourierEntity> findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(String courierId, String storeName, LocalDateTime start, LocalDateTime end);
 
     /**
      * Finds a list of CourierEntities associated with the specified courier ID and orders them by timestamp in ascending order.

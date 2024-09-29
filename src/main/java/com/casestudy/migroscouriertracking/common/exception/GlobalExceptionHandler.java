@@ -1,10 +1,7 @@
 package com.casestudy.migroscouriertracking.common.exception;
 
 import com.casestudy.migroscouriertracking.common.model.CustomError;
-import com.casestudy.migroscouriertracking.courier.exception.CourierNotFoundException;
-import com.casestudy.migroscouriertracking.courier.exception.StoreFarAwayException;
-import com.casestudy.migroscouriertracking.courier.exception.StoreNotFoundException;
-import com.casestudy.migroscouriertracking.courier.exception.TimestampBeforeStoreCreateException;
+import com.casestudy.migroscouriertracking.courier.exception.*;
 import jakarta.validation.ConstraintViolationException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -179,6 +176,24 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(customError, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handles StoreReentryTooSoonException thrown when a courier attempts to reenter the
+     * circumference of a store within a restricted time frame.
+     *
+     * @param ex the StoreReentryTooSoonException thrown
+     * @return ResponseEntity containing the custom error response with the exception message
+     */
+    @ExceptionHandler(StoreReentryTooSoonException.class)
+    protected ResponseEntity<CustomError> handleStoreReentryTooSoon(final StoreReentryTooSoonException ex) {
+        CustomError customError = CustomError.builder()
+                .httpStatus(HttpStatus.CONFLICT) // Use CONFLICT status for reentry issues
+                .header(CustomError.Header.API_ERROR.getName())
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(customError, HttpStatus.CONFLICT);
     }
 
 }

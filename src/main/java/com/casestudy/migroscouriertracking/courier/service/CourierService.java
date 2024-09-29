@@ -1,9 +1,6 @@
 package com.casestudy.migroscouriertracking.courier.service;
 
-import com.casestudy.migroscouriertracking.courier.exception.CourierNotFoundException;
-import com.casestudy.migroscouriertracking.courier.exception.StoreFarAwayException;
-import com.casestudy.migroscouriertracking.courier.exception.StoreNotFoundException;
-import com.casestudy.migroscouriertracking.courier.exception.TimestampBeforeStoreCreateException;
+import com.casestudy.migroscouriertracking.courier.exception.*;
 import com.casestudy.migroscouriertracking.courier.model.Courier;
 import com.casestudy.migroscouriertracking.courier.model.dto.request.LogCourierLocationRequest;
 import com.casestudy.migroscouriertracking.courier.model.dto.request.TravelQueryRequest;
@@ -57,31 +54,32 @@ public class CourierService {
         Optional.ofNullable(stores)
                 .orElseThrow(() -> new StoreNotFoundException("No stores found in the database."));
 
-        boolean travelEntrySaved = stores.stream().anyMatch(store -> {
-            if (DistanceUtils.isWithinRadius(lat, lng, store.getLat(), store.getLng(), 100.0)) {
-                if (timestamp.isBefore(store.getCreatedAt())) {
-                    throw new TimestampBeforeStoreCreateException("Timestamp is before store's creation time.");
-                }
+        stores.stream()
+                .filter(store -> DistanceUtils.isWithinRadius(lat, lng, store.getLat(), store.getLng(), 100.0))
+                .findFirst()
+                .ifPresentOrElse(store -> {
+                    if (timestamp.isBefore(store.getCreatedAt())) {
+                        throw new TimestampBeforeStoreCreateException("Timestamp is before store's creation time.");
+                    }
 
-                CourierEntity lastTravel = findLastTravelEntry(courierId, store.getName(), timestamp);
-                if (lastTravel == null || DistanceUtils.isMoreThanOneMinuteAgo(lastTravel.getTimestamp(), timestamp)) {
-                    CourierEntity courier = CourierEntity.builder()
-                            .courierId(courierId)
-                            .lat(lat)
-                            .lng(lng)
-                            .storeName(store.getName())
-                            .timestamp(timestamp)
-                            .build();
-                    courierRepository.save(courier);
-                    return true;
-                }
-            }
-            return false;
-        });
+                    // Find the last travel entry for the courier at this store
+                    CourierEntity lastTravel = findLastTravelEntry(courierId, store.getName(), timestamp);
+                    if (lastTravel == null || DistanceUtils.isMoreThanOneMinuteAgo(lastTravel.getTimestamp(), timestamp)) {
+                        CourierEntity courier = CourierEntity.builder()
+                                .courierId(courierId)
+                                .lat(lat)
+                                .lng(lng)
+                                .storeName(store.getName())
+                                .timestamp(timestamp)
+                                .build();
+                        courierRepository.save(courier); // Exit after saving the first valid entry
+                    } else {
+                        throw new StoreReentryTooSoonException("Reentry to the same store's circumference is too soon. Please wait before logging again.");
+                    }
+                }, () -> {
+                    throw new StoreFarAwayException("Courier is far away from all stores.");
+                });
 
-        if (!travelEntrySaved) {
-            throw new StoreFarAwayException("Courier is far away from all stores.");
-        }
     }
 
     /**
@@ -94,9 +92,9 @@ public class CourierService {
      */
     private CourierEntity findLastTravelEntry(String courierId, String storeName, LocalDateTime currentTimestamp) {
         LocalDateTime oneMinuteAgo = currentTimestamp.minusMinutes(1);
-        return courierRepository.findByCourierIdAndStoreNameAndTimestampBetween(courierId, storeName, oneMinuteAgo, currentTimestamp)
+        return courierRepository.findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(courierId, storeName, oneMinuteAgo, currentTimestamp)
                 .stream()
-                .max(Comparator.comparing(CourierEntity::getTimestamp))
+                .findFirst()
                 .orElse(null);
     }
 
@@ -128,7 +126,7 @@ public class CourierService {
         LocalDateTime start = request.getStart();
         LocalDateTime end = request.getEnd();
 
-        List<CourierEntity> entities = courierRepository.findByCourierIdAndStoreNameAndTimestampBetween(courierId, storeName, start, end);
+        List<CourierEntity> entities = courierRepository.findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(courierId, storeName, start, end);
         Optional.ofNullable(entities)
                 .filter(e -> !e.isEmpty())
                 .orElseThrow(() -> new CourierNotFoundException("No travels found for Courier ID " + courierId + " in store " + storeName + " between " + start + " and " + end + "."));
