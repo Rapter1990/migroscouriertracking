@@ -183,7 +183,7 @@ https://hub.docker.com/repository/docker/noyandocker/migroscouriertracking/gener
     <p> Figure 11 </p>
     <img src ="screenshots/11.PNG">
     <p> Figure 12 </p>
-    <img src ="screenshots/12.PNG">
+    <img src ="screenshots/">
     <p> Figure 13 </p>
     <img src ="screenshots/13.PNG">
 </details>
