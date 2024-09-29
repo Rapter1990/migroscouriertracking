@@ -5,7 +5,9 @@ import com.casestudy.migroscouriertracking.courier.model.Courier;
 import com.casestudy.migroscouriertracking.courier.model.dto.request.LogCourierLocationRequest;
 import com.casestudy.migroscouriertracking.courier.model.dto.request.TravelQueryRequest;
 import com.casestudy.migroscouriertracking.courier.model.dto.response.CourierResponse;
+import com.casestudy.migroscouriertracking.courier.model.entity.StoreEntity;
 import com.casestudy.migroscouriertracking.courier.model.mapper.CourierToCourierResponseMapper;
+import com.casestudy.migroscouriertracking.courier.repository.StoreRepository;
 import com.casestudy.migroscouriertracking.courier.service.CourierService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,6 +34,9 @@ class CourierControllerTest extends AbstractRestControllerTest {
     @MockBean
     private CourierService courierService;
 
+    @MockBean
+    private StoreRepository storeRepository;
+
     private final CourierToCourierResponseMapper courierToCourierResponseMapper = CourierToCourierResponseMapper.initialize();
 
     @Test
@@ -45,7 +50,15 @@ class CourierControllerTest extends AbstractRestControllerTest {
                 .timestamp(LocalDateTime.now().plusMinutes(1))
                 .build();
 
+        // Mock nearest store's createdAt time to be before the logRequest's timestamp
+        StoreEntity mockStore = StoreEntity.builder()
+                .lat(37.7749)
+                .lng(-122.4194)
+                .createdAt(LocalDateTime.now().minusDays(1))
+                .build();
+
         // When
+        when(storeRepository.findAll()).thenReturn(List.of(mockStore));
         doNothing().when(courierService).logCourierLocation(any());
 
         // Then

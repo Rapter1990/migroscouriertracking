@@ -1,5 +1,6 @@
 package com.casestudy.migroscouriertracking.courier.model.dto.request;
 
+import com.casestudy.migroscouriertracking.courier.utils.validator.TimestampAfterStoreCreation;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@TimestampAfterStoreCreation(message = "Timestamp must be after the nearest store's creation time")
 public class LogCourierLocationRequest {
 
     @NotBlank
@@ -29,7 +31,6 @@ public class LogCourierLocationRequest {
     private Double lng;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-    @FutureOrPresent(message = "Timestamp must be after the store creation time")
     private LocalDateTime timestamp;
 
 }
