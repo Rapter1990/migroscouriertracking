@@ -2,7 +2,6 @@ package com.casestudy.migroscouriertracking.courier.model.mapper;
 
 import com.casestudy.migroscouriertracking.courier.model.Courier;
 import com.casestudy.migroscouriertracking.courier.model.dto.response.CourierResponse;
-import com.casestudy.migroscouriertracking.courier.model.entity.CourierEntity;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -10,6 +9,11 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for {@link CourierToCourierResponseMapper} that verifies the mapping
+ * between {@link Courier} and {@link CourierResponse} objects, ensuring accurate
+ * transformation of data in various scenarios.
+ */
 class CourierToCourierResponseMapperTest {
 
     private final CourierToCourierResponseMapper mapper = CourierToCourierResponseMapper.initialize();

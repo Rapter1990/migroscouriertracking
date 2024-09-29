@@ -9,6 +9,11 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for {@link CourierEntityToCourierMapper} that validates the mapping
+ * between {@link CourierEntity} and {@link Courier} objects, ensuring correct
+ * functionality for various scenarios.
+ */
 class CourierEntityToCourierMapperTest {
 
     private final CourierEntityToCourierMapper mapper = CourierEntityToCourierMapper.initialize();
