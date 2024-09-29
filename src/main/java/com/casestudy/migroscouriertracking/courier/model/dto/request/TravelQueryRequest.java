@@ -19,9 +19,6 @@ import java.time.LocalDateTime;
 @Builder
 public class TravelQueryRequest {
 
-    @NotBlank
-    @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = "Invalid UUID format")
-    private String courierId;
 
     @NotBlank(message = "Store name cannot be blank")
     private String storeName;

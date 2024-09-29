@@ -119,8 +119,7 @@ public class CourierService {
      * @return a list of Courier objects representing the courier's travels
      * @throws CourierNotFoundException if no travels are found for the given criteria
      */
-    public List<Courier> getTravelsByCourierIdStoreNameAndTimeRange(TravelQueryRequest request) {
-        String courierId = request.getCourierId();
+    public List<Courier> getTravelsByCourierIdStoreNameAndTimeRange(String courierId,TravelQueryRequest request) {
         String storeName = request.getStoreName();
         LocalDateTime start = request.getStart();
         LocalDateTime end = request.getEnd();

@@ -33,7 +33,6 @@ class TravelQueryRequestTest {
         LocalDateTime end = LocalDateTime.now(); // Current date
 
         TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId("123e4567-e89b-12d3-a456-426614174000")
                 .storeName("Store")
                 .start(start)
                 .end(end)
@@ -57,7 +56,6 @@ class TravelQueryRequestTest {
         LocalDateTime end = LocalDateTime.now().plusDays(1); // Future date
 
         TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId("123e4567-e89b-12d3-a456-426614174000")
                 .storeName("Store")
                 .start(start)
                 .end(end)
@@ -71,29 +69,6 @@ class TravelQueryRequestTest {
 
     }
 
-    @Test
-    void shouldFailOnInvalidUUIDFormat() {
-
-        // Given
-        LocalDateTime start = LocalDateTime.now().minusDays(1);
-        LocalDateTime end = LocalDateTime.now().plusDays(1);
-
-        TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId("invalid-uuid")
-                .storeName("Store")
-                .start(start)
-                .end(end)
-                .build();
-
-        // When
-        Set<ConstraintViolation<TravelQueryRequest>> violations = validator.validate(request);
-
-        // Then
-        assertFalse(violations.isEmpty(), "Violations should be present for invalid UUID format");
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().equals("Invalid UUID format")),
-                "Violation for invalid UUID should be present");
-
-    }
 
     @Test
     void shouldFailWhenStoreNameIsBlank() {
@@ -103,7 +78,6 @@ class TravelQueryRequestTest {
         LocalDateTime end = LocalDateTime.now().plusDays(1);
 
         TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId("123e4567-e89b-12d3-a456-426614174000")
                 .storeName("")
                 .start(start)
                 .end(end)
@@ -126,7 +100,6 @@ class TravelQueryRequestTest {
         LocalDateTime end = LocalDateTime.now().plusDays(1);
 
         TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId("123e4567-e89b-12d3-a456-426614174000")
                 .storeName("Store")
                 .start(null)
                 .end(end)
@@ -148,7 +121,6 @@ class TravelQueryRequestTest {
         LocalDateTime start = LocalDateTime.now().minusDays(1);
 
         TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId("123e4567-e89b-12d3-a456-426614174000")
                 .storeName("Store")
                 .start(start)
                 .end(null)

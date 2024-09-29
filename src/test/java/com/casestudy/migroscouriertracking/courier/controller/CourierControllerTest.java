@@ -108,8 +108,8 @@ class CourierControllerTest extends AbstractRestControllerTest {
     public void getTravelsByCourierIdStoreNameAndTimeRange_shouldReturnFilteredTravels() throws Exception {
 
         // Given
+        String courierId = UUID.randomUUID().toString();
         TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId(UUID.randomUUID().toString())
                 .storeName("Ataşehir MMM Migros")
                 .start(LocalDateTime.parse("28/09/2024 01:58", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
                 .end(LocalDateTime.parse("28/09/2024 02:00", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
@@ -118,7 +118,7 @@ class CourierControllerTest extends AbstractRestControllerTest {
         List<Courier> travels = List.of(
                 Courier.builder()
                         .id(UUID.randomUUID().toString())
-                        .courierId(request.getCourierId())
+                        .courierId(courierId)
                         .lat(37.7749)
                         .lng(-122.4194)
                         .storeName(request.getStoreName())
@@ -129,10 +129,10 @@ class CourierControllerTest extends AbstractRestControllerTest {
         List<CourierResponse> response = courierToCourierResponseMapper.map(travels);
 
         // When
-        when(courierService.getTravelsByCourierIdStoreNameAndTimeRange(any(TravelQueryRequest.class))).thenReturn(travels);
+        when(courierService.getTravelsByCourierIdStoreNameAndTimeRange(eq(courierId),any(TravelQueryRequest.class))).thenReturn(travels);
 
         // Then
-        mockMvc.perform(post("/api/couriers/travels")
+        mockMvc.perform(post("/api/couriers/travels/{courierId}", courierId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -140,7 +140,7 @@ class CourierControllerTest extends AbstractRestControllerTest {
                 .andExpect(jsonPath("$.response[0].storeName").value(response.get(0).getStoreName()));
 
         // Verify
-        verify(courierService).getTravelsByCourierIdStoreNameAndTimeRange(any(TravelQueryRequest.class));
+        verify(courierService).getTravelsByCourierIdStoreNameAndTimeRange(eq(courierId),any(TravelQueryRequest.class));
 
     }
 

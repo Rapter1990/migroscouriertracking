@@ -60,13 +60,15 @@ public class CourierController {
     /**
      * Retrieves travels of a courier based on courier ID, store name, and time range.
      *
-     * @param request the request containing the criteria for the travel query
+     * @param courierId the unique identifier of the courier (UUID format)
+     * @param request the {@link TravelQueryRequest} containing the store name and time range for the query
      * @return a CustomResponse containing a list of CourierResponse objects matching the criteria
      */
-    @PostMapping("/travels")
-    public CustomResponse<List<CourierResponse>> getTravelsByCourierIdStoreNameAndTimeRange(
+    @PostMapping("/travels/{courierId}")
+    public CustomResponse<List<CourierResponse>> getTravelsByCourierIdAndTravelQueryRequest(
+            @PathVariable @UUID String courierId,
             @RequestBody @Valid TravelQueryRequest request) {
-        List<Courier> travels = courierService.getTravelsByCourierIdStoreNameAndTimeRange(request);
+        List<Courier> travels = courierService.getTravelsByCourierIdStoreNameAndTimeRange(courierId,request);
         List<CourierResponse> response = courierToCourierResponseMapper.map(travels);
         return CustomResponse.successOf(response);
     }

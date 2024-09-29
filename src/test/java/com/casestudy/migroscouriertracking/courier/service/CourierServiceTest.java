@@ -253,7 +253,6 @@ class CourierServiceTest extends AbstractBaseServiceTest {
         String courierId = UUID.randomUUID().toString();
 
         TravelQueryRequest request = TravelQueryRequest.builder()
-                .courierId(courierId)
                 .storeName("store1")
                 .start(LocalDateTime.now().minusHours(1))
                 .end(LocalDateTime.now())
@@ -271,16 +270,22 @@ class CourierServiceTest extends AbstractBaseServiceTest {
         List<Courier> couriers = courierEntityToCourierMapper.map(courierEntities);
 
         // When
-        when(courierRepository.findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(request.getCourierId(), request.getStoreName(), request.getStart(), request.getEnd())).thenReturn(courierEntities);
+        when(courierRepository.findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(courierId,
+                request.getStoreName(),
+                request.getStart(),
+                request.getEnd())).thenReturn(courierEntities);
 
         // Then
-        List<Courier> result = courierService.getTravelsByCourierIdStoreNameAndTimeRange(request);
+        List<Courier> result = courierService.getTravelsByCourierIdStoreNameAndTimeRange(courierId,request);
 
         assertFalse(result.isEmpty());
         assertEquals(couriers.get(0).getCourierId(), result.get(0).getCourierId());
 
         // Verify
-        verify(courierRepository).findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(request.getCourierId(), request.getStoreName(), request.getStart(), request.getEnd());
+        verify(courierRepository).findByCourierIdAndStoreNameAndTimestampBetweenOrderByTimestampDesc(courierId,
+                request.getStoreName(),
+                request.getStart(),
+                request.getEnd());
 
     }
 
