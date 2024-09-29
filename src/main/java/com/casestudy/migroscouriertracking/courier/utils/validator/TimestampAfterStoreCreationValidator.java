@@ -13,16 +13,35 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * Validator for the {@link TimestampAfterStoreCreation} annotation that checks
+ * if a given timestamp is after the creation time of the nearest store.
+ *
+ * @see #isValid(LogCourierLocationRequest, ConstraintValidatorContext)
+ * @see #initialize(TimestampAfterStoreCreation)
+ */
 @RequiredArgsConstructor
 @Slf4j
 public class TimestampAfterStoreCreationValidator implements ConstraintValidator<TimestampAfterStoreCreation, LogCourierLocationRequest> {
 
     private final StoreRepository storeRepository;
 
+    /**
+     * Initializes the validator with the specified {@link TimestampAfterStoreCreation} constraint annotation.
+     **/
     @Override
     public void initialize(TimestampAfterStoreCreation constraintAnnotation) {
     }
 
+    /**
+     * Validates the given {@link LogCourierLocationRequest} to ensure that the
+     * timestamp is after the creation time of the nearest store within a 100-meter radius.
+     *
+     * @param request the {@link LogCourierLocationRequest} object containing the timestamp, latitude, and longitude
+     * @param context the {@link ConstraintValidatorContext} used for building error messages
+     * @return true if the timestamp is valid (i.e., after the nearest store's creation time or no nearby store found),
+     *         false if the request is null or if any required field is missing
+     */
     @Override
     public boolean isValid(LogCourierLocationRequest request, ConstraintValidatorContext context) {
         // Check if the request is null or any required field is null
