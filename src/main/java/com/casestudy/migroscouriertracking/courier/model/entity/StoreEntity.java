@@ -1,9 +1,7 @@
 package com.casestudy.migroscouriertracking.courier.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,6 +14,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StoreEntity {
 
     @Id
@@ -32,36 +32,9 @@ public class StoreEntity {
     @Column(nullable = false)
     private Double lng;
 
+    @Builder.Default
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    /**
-     * Constructs a new StoreEntity with the specified parameters.
-     *
-     * @param name the name of the store
-     * @param lat  the latitude of the store's location
-     * @param lng  the longitude of the store's location
-     */
-    public StoreEntity(String name, Double lat, Double lng) {
-        this.name = name;
-        this.lat = lat;
-        this.lng = lng;
-    }
-
-    /**
-     * Constructs a new StoreEntity with the specified parameters including creation time.
-     *
-     * @param name       the name of the store
-     * @param lat        the latitude of the store's location
-     * @param lng        the longitude of the store's location
-     * @param createdAt  the timestamp when the store was created
-     */
-    public StoreEntity(String name, double lat, double lng, LocalDateTime createdAt) {
-        this.name = name;
-        this.lat = lat;
-        this.lng = lng;
-        this.createdAt=createdAt;
-    }
 
 }
 

@@ -29,11 +29,31 @@ public class DataLoader {
     public CommandLineRunner loadInitialData() {
         return args -> {
             List<StoreEntity> stores = Arrays.asList(
-                    new StoreEntity("Ataşehir MMM Migros", 40.9923307, 29.1244229),
-                    new StoreEntity("Novada MMM Migros", 40.986106, 29.1161293),
-                    new StoreEntity("Beylikdüzü 5M Migros", 41.0066851, 28.6552262),
-                    new StoreEntity("Ortaköy MMM Migros", 41.055783, 29.0210292),
-                    new StoreEntity("Caddebostan MMM Migros", 40.9632463, 29.0630908)
+                    StoreEntity.builder()
+                            .name("Ataşehir MMM Migros")
+                            .lat(40.9923307)
+                            .lng(29.1244229)
+                            .build(),
+                    StoreEntity.builder()
+                            .name("Novada MMM Migros")
+                            .lat(40.986106)
+                            .lng(29.1161293)
+                            .build(),
+                    StoreEntity.builder()
+                            .name("Beylikdüzü 5M Migros")
+                            .lat(41.0066851)
+                            .lng(28.6552262)
+                            .build(),
+                    StoreEntity.builder()
+                            .name("Ortaköy MMM Migros")
+                            .lat(41.055783)
+                            .lng(29.0210292)
+                            .build(),
+                    StoreEntity.builder()
+                            .name("Caddebostan MMM Migros")
+                            .lat(40.9632463)
+                            .lng(29.0630908)
+                            .build()
             );
             storeRepository.saveAll(stores);
         };

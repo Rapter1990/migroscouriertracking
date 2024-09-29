@@ -65,7 +65,13 @@ public class CourierService {
 
                 CourierEntity lastTravel = findLastTravelEntry(courierId, store.getName(), timestamp);
                 if (lastTravel == null || DistanceUtils.isMoreThanOneMinuteAgo(lastTravel.getTimestamp(), timestamp)) {
-                    CourierEntity courier = new CourierEntity(courierId, lat, lng, store.getName(), timestamp);
+                    CourierEntity courier = CourierEntity.builder()
+                            .courierId(courierId)
+                            .lat(lat)
+                            .lng(lng)
+                            .storeName(store.getName())
+                            .timestamp(timestamp)
+                            .build();
                     courierRepository.save(courier);
                     return true;
                 }

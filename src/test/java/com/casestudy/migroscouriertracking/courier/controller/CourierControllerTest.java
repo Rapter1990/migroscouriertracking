@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -37,12 +38,12 @@ class CourierControllerTest extends AbstractRestControllerTest {
     public void logCourierLocation_shouldReturnSuccessMessage() throws Exception {
 
         // Given
-        LogCourierLocationRequest logRequest = new LogCourierLocationRequest(
-                "123e4567-e89b-12d3-a456-426614174000",
-                37.7749,
-                -122.4194,
-                LocalDateTime.now()
-        );
+        LogCourierLocationRequest logRequest = LogCourierLocationRequest.builder()
+                .courierId(UUID.randomUUID().toString())
+                .lat(37.7749)
+                .lng(-122.4194)
+                .timestamp(LocalDateTime.now().plusMinutes(1))
+                .build();
 
         // When
         doNothing().when(courierService).logCourierLocation(any());
@@ -64,10 +65,25 @@ class CourierControllerTest extends AbstractRestControllerTest {
     public void getPastTravels_shouldReturnListOfTravels() throws Exception {
 
         // Given
-        String courierId = "123e4567-e89b-12d3-a456-426614174000";
+        String courierId = UUID.randomUUID().toString();
+
         List<Courier> travels = List.of(
-                new Courier("1", courierId, 37.7749, -122.4194, "store1", LocalDateTime.now()),
-                new Courier("2", courierId, 37.7750, -122.4183, "store1", LocalDateTime.now().minusHours(1))
+                Courier.builder()
+                        .id(UUID.randomUUID().toString())
+                        .courierId(courierId)
+                        .lat(37.7749)
+                        .lng(-122.4194)
+                        .storeName("store1")
+                        .timestamp(LocalDateTime.now())
+                        .build(),
+                Courier.builder()
+                        .id(UUID.randomUUID().toString())
+                        .courierId(courierId)
+                        .lat(37.7750)
+                        .lng(-122.4183)
+                        .storeName("store1")
+                        .timestamp(LocalDateTime.now().minusHours(1))
+                        .build()
         );
 
         List<CourierResponse> response = courierToCourierResponseMapper.map(travels);
@@ -92,16 +108,22 @@ class CourierControllerTest extends AbstractRestControllerTest {
     public void getTravelsByCourierIdStoreNameAndTimeRange_shouldReturnFilteredTravels() throws Exception {
 
         // Given
-        TravelQueryRequest request = new TravelQueryRequest(
-                "123e4567-e89b-12d3-a456-426614174000",
-                "Ataşehir MMM Migros",
-                LocalDateTime.parse("28/09/2024 01:58", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
-                LocalDateTime.parse("28/09/2024 02:00", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
-        );
+        TravelQueryRequest request = TravelQueryRequest.builder()
+                .courierId(UUID.randomUUID().toString())
+                .storeName("Ataşehir MMM Migros")
+                .start(LocalDateTime.parse("28/09/2024 01:58", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                .end(LocalDateTime.parse("28/09/2024 02:00", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                .build();
 
         List<Courier> travels = List.of(
-                new Courier("1", request.getCourierId(), 37.7749, -122.4194, request.getStoreName(),
-                        LocalDateTime.parse("28/09/2024 01:59", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                Courier.builder()
+                        .id(UUID.randomUUID().toString())
+                        .courierId(request.getCourierId())
+                        .lat(37.7749)
+                        .lng(-122.4194)
+                        .storeName(request.getStoreName())
+                        .timestamp(LocalDateTime.parse("28/09/2024 01:59", DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")))
+                        .build()
         );
 
         List<CourierResponse> response = courierToCourierResponseMapper.map(travels);
@@ -127,7 +149,7 @@ class CourierControllerTest extends AbstractRestControllerTest {
     public void getTotalTravelDistance_shouldReturnTotalDistanceTraveledByCourier() throws Exception {
 
         // Given
-        String courierId = "123e4567-e89b-12d3-a456-426614174000";
+        String courierId = UUID.randomUUID().toString();
         double totalDistance = 0.097; // Example distance in kilometers
         String formattedDistance = String.format("%.2f km", totalDistance);
 

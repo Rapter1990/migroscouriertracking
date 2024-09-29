@@ -29,6 +29,7 @@ public class LogCourierLocationRequest {
     private Double lng;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    @FutureOrPresent(message = "Timestamp must be after the store creation time")
     private LocalDateTime timestamp;
 
 }

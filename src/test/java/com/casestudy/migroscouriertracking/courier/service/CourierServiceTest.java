@@ -53,10 +53,29 @@ class CourierServiceTest extends AbstractBaseServiceTest {
         double lng = -122.4194;
         LocalDateTime timestamp = LocalDateTime.now();
 
-        LogCourierLocationRequest logRequest = new LogCourierLocationRequest(courierId, lat, lng, timestamp);
-        StoreEntity store = new StoreEntity("store1", 37.7750, -122.4183, LocalDateTime.now().minusMinutes(10));
+        LogCourierLocationRequest logRequest = LogCourierLocationRequest.builder()
+                .courierId(courierId)
+                .lat(lat)
+                .lng(lng)
+                .timestamp(timestamp)
+                .build();
 
-        CourierEntity courierEntity = new CourierEntity(UUID.randomUUID().toString(), courierId, lat, lng, store.getName(), timestamp);
+        StoreEntity store = StoreEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .name("store1")
+                .lat(37.7750)
+                .lng(-122.4183)
+                .createdAt(LocalDateTime.now().minusMinutes(10))
+                .build();
+
+        CourierEntity courierEntity = CourierEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .courierId(courierId)
+                .lat(lat)
+                .lng(lng)
+                .storeName(store.getName())
+                .timestamp(timestamp)
+                .build();
 
         // When
         when(storeRepository.findAll()).thenReturn(List.of(store));
@@ -74,8 +93,26 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void logCourierLocation_shouldThrowTimestampBeforeStoreCreateException_ifTimestampIsBeforeStoreCreation() {
 
         // Given
-        LogCourierLocationRequest logRequest = new LogCourierLocationRequest("courier1", 37.7749, -122.4194, LocalDateTime.now());
-        StoreEntity store = new StoreEntity("store1", 37.7750, -122.4183, LocalDateTime.now().plusMinutes(10));
+        String courierId = "courier1";
+        double lat = 37.7749;
+        double lng = -122.4194;
+        LocalDateTime timestamp = LocalDateTime.now();
+
+        LogCourierLocationRequest logRequest = LogCourierLocationRequest.builder()
+                .courierId(courierId)
+                .lat(lat)
+                .lng(lng)
+                .timestamp(timestamp)
+                .build();
+
+        StoreEntity store = StoreEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .name("store1")
+                .lat(37.7750)
+                .lng(-122.4183)
+                .createdAt(LocalDateTime.now().plusMinutes(10))
+                .build();
+
 
         // When
         when(storeRepository.findAll()).thenReturn(List.of(store));
@@ -92,8 +129,19 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void logCourierLocation_shouldThrowStoreFarAwayException_ifCourierIsFarAwayFromAllStores() {
 
         // Given
-        LogCourierLocationRequest logRequest = new LogCourierLocationRequest("courier1", 37.7749, -122.4194, LocalDateTime.now());
-        StoreEntity store = new StoreEntity("store1", 37.7800, -122.4200, LocalDateTime.now().minusMinutes(10));
+        LogCourierLocationRequest logRequest = LogCourierLocationRequest.builder()
+                .courierId("courier1")
+                .lat(37.7749)
+                .lng(-122.4194)
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        StoreEntity store = StoreEntity.builder()
+                .name("store1")
+                .lat(37.7800)
+                .lng(-122.4200)
+                .createdAt(LocalDateTime.now().minusMinutes(10))
+                .build();
 
         // When
         when(storeRepository.findAll()).thenReturn(List.of(store));
@@ -111,7 +159,16 @@ class CourierServiceTest extends AbstractBaseServiceTest {
 
         // Given
         String courierId = "courier1";
-        List<CourierEntity> courierEntities = List.of(new CourierEntity(UUID.randomUUID().toString(), courierId, 37.7749, -122.4194, "store1", LocalDateTime.now()));
+
+        List<CourierEntity> courierEntities = List.of(CourierEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .courierId(courierId)
+                .lat(37.7749)
+                .lng(-122.4194)
+                .storeName("store1")
+                .timestamp(LocalDateTime.now())
+                .build());
+
         List<Courier> couriers = courierEntityToCourierMapper.map(courierEntities);
 
         // When
@@ -132,8 +189,22 @@ class CourierServiceTest extends AbstractBaseServiceTest {
     void getTravelsByCourierIdStoreNameAndTimeRange_shouldReturnTravelsWithinTimeRange() {
 
         // Given
-        TravelQueryRequest request = new TravelQueryRequest("courier1", "store1", LocalDateTime.now().minusHours(1), LocalDateTime.now());
-        List<CourierEntity> courierEntities = List.of(new CourierEntity(UUID.randomUUID().toString(), "courier1", 37.7749, -122.4194, "store1", LocalDateTime.now()));
+        TravelQueryRequest request = TravelQueryRequest.builder()
+                .courierId("courier1")
+                .storeName("store1")
+                .start(LocalDateTime.now().minusHours(1))
+                .end(LocalDateTime.now())
+                .build();
+
+        List<CourierEntity> courierEntities = List.of(CourierEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .courierId("courier1")
+                .lat(37.7749)
+                .lng(-122.4194)
+                .storeName("store1")
+                .timestamp(LocalDateTime.now())
+                .build());
+
         List<Courier> couriers = courierEntityToCourierMapper.map(courierEntities);
 
         // When
@@ -163,8 +234,22 @@ class CourierServiceTest extends AbstractBaseServiceTest {
         double lng2 = -122.4183;
 
         List<CourierEntity> travels = List.of(
-                new CourierEntity(UUID.randomUUID().toString(), courierId, lat1, lng1, "store1", timestamp1),
-                new CourierEntity(UUID.randomUUID().toString(), courierId, lat2, lng2, "store1", timestamp2)
+                CourierEntity.builder()
+                        .id(UUID.randomUUID().toString())
+                        .courierId(courierId)
+                        .lat(lat1)
+                        .lng(lng1)
+                        .storeName("store1")
+                        .timestamp(timestamp1)
+                        .build(),
+                CourierEntity.builder()
+                        .id(UUID.randomUUID().toString())
+                        .courierId(courierId)
+                        .lat(lat2)
+                        .lng(lng2)
+                        .storeName("store1")
+                        .timestamp(timestamp2)
+                        .build()
         );
 
         // Calculate the distance between two points in kilometers
