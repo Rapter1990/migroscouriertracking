@@ -58,12 +58,12 @@ Endpoints Summary
       <td>CustomResponse&lt;List&lt;CourierResponse&gt;&gt;</td>
   </tr>
   <tr>
-      <td>GET</td>
-      <td>/api/couriers/travels</td>
-      <td>Get travels of a courier by courier ID, store name, and time range.</td>
-      <td>TravelQueryRequest</td>
-      <td>None</td>
-      <td>CustomResponse&lt;List&lt;CourierResponse&gt;&gt;</td>
+    <td>POST</td>
+    <td>/api/couriers/travels/{courierId}</td>
+    <td>Get travels of a courier by courier ID, store name, and time range.</td>
+    <td>TravelQueryRequest</td>
+    <td>courierId (UUID)</td>
+    <td>CustomResponse&lt;List&lt;CourierResponse&gt;&gt;</td>
   </tr>
   <tr>
       <td>GET</td>
